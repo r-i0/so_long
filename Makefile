@@ -18,3 +18,11 @@ all		:	$(NAME)
 
 $(NAME)	:	$(OBJ)
 	$(CC) -I $(MLX_DIR) $(OBJ) -L $(MLX_DIR) $(FLAGS) -o $@
+
+clean	:
+	$(RM) $(OBJ)
+
+fclean	:	clean
+	$(RM) $(NAME)
+
+re	:	fclean all
