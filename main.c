@@ -2,6 +2,7 @@
 
 int	key_hook(int key_code, t_vars *vars)
 {
+	static int cnt;
 	if (key_code == W)
 	{
 		vars->player_point.y -= 60;
@@ -26,7 +27,8 @@ int	key_hook(int key_code, t_vars *vars)
 		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x, vars->player_point.y);
 		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, vars->player_point.x - 60, vars->player_point.y);
 	}
-	printf("key_code : %d\n", key_code);
+	printf("cnt : %d\n", cnt);
+	cnt++;
 	return (0);
 }
 
@@ -73,33 +75,45 @@ void	cnt_map_width(t_vars *vars)
 
 void	gen_map(t_vars *vars)
 {
+	int		x;
+	int		y;
+
+	y = 0;
+
+	vars->player_point.x = 60;
+	vars->player_point.y = 60;
+
+	while (y < vars->map_height)
+	{
+		x = 0;
+		while (x < vars->map_width)
+		{
+			if (vars->map[y][x] == '0')
+				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, x * TILE_SIZE, y * TILE_SIZE);
+			if (vars->map[y][x] == '1')
+				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->wall_img, x * TILE_SIZE, y * TILE_SIZE);
+			if (vars->map[y][x] == 'P')
+				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, x * TILE_SIZE, y * TILE_SIZE);
+			if (vars->map[y][x] == 'C')
+				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->collectible_img, x * TILE_SIZE, y * TILE_SIZE);
+			x++;
+		}
+		y++;
+	}
+}
+
+void	vars_init(t_vars *vars)
+{
 	int		img_width;
 	int		img_height;
 
 	cnt_map_width(vars);
-	vars->player_point.x = 0;
-	vars->player_point.y = 0;
-
-	printf("height: %d\n", vars->map_height);
-	printf("width: %d\n", vars->map_width);
-	vars->mlx_win = mlx_new_window(vars->mlx, vars->map_width * 60, vars->map_height * 60, "so_long");
-	vars->tile_img = mlx_xpm_file_to_image(vars->mlx, tile_img_path, &img_width, &img_height);
-	vars->player_img = mlx_xpm_file_to_image(vars->mlx, player_img_path, &img_width, &img_height);
-	vars->collectible_img = mlx_xpm_file_to_image(vars->mlx, collectible_img_path, &img_width, &img_height);
-	int x = 0;
-	int y;
-	while (x < 600)
-	{
-		y = 0;
-		while (y < 600)
-		{
-			mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, x, y);
-			y += 60;
-		}
-		x += 60;
-	}
-	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x, vars->player_point.y);
-	mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->collectible_img, 120, 120);
+	vars->mlx = mlx_init();
+	vars->mlx_win = mlx_new_window(vars->mlx, vars->map_width * TILE_SIZE, vars->map_height * TILE_SIZE, "so_long");
+	vars->tile_img = mlx_xpm_file_to_image(vars->mlx, TILE_IMG_PATH, &img_width, &img_height);
+	vars->player_img = mlx_xpm_file_to_image(vars->mlx, PLAYER_IMG_PATH, &img_width, &img_height);
+	vars->collectible_img = mlx_xpm_file_to_image(vars->mlx, COLLECTIBLE_IMG_PATH, &img_width, &img_height);
+	vars->wall_img = mlx_xpm_file_to_image(vars->mlx, WALL_IMG_PATH, &img_width, &img_height);
 }
 
 int	main(int argc, char **argv)
@@ -108,8 +122,8 @@ int	main(int argc, char **argv)
 	int		img_width;
 	int		img_height;
 
-	vars.mlx = mlx_init();
 	read_map(&vars, argv[1]);
+	vars_init(&vars);
 	gen_map(&vars);
 
 	mlx_key_hook(vars.mlx_win, key_hook, &vars);
