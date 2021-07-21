@@ -15,11 +15,12 @@
 # include "../mlx-linux/mlx.h"
 # include "../get_next_line/get_next_line.h"
 # include <stdlib.h>
+# include <stdio.h>
 # include <unistd.h>
+# include <stdbool.h>
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h>
-# include <stdio.h>
 
 typedef struct s_point
 {
@@ -27,7 +28,11 @@ typedef struct s_point
 	int	y;
 }	t_point;
 
-
+typedef struct s_ischr
+{
+	int	cnt_player;
+	int	cnt_exit;
+}	t_cntchr;
 
 typedef struct s_vars
 {

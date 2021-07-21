@@ -1,11 +1,5 @@
 #include "./include/so_long.h"
 
-// void end(void)__attribute__((destructor));
-
-// void end(void)
-// {
-//     system("leaks so_long");
-// }
 void	destroy_and_exit(t_vars *vars)
 {
 	mlx_destroy_image(vars->mlx, vars->player_img);
@@ -112,21 +106,36 @@ void	read_map(t_vars *vars, char *map_name)
 
 void	cnt_map_width(t_vars *vars)
 {
-	int	i;
+	int	x;
+	int	y;
+	int	width;
 
-	i = 0;
-	while (vars->map[0][i])
+	y = 0;
+	width = 0;
+	while (vars->map[y])
 	{
-		i++;
+		x = 0;
+		while (vars->map[y][x])
+			x++;
+		if (width == 0)
+			width = x;
+		else if (width != x)
+		{
+			printf("error\n");
+		}
+		y++;
 	}
-	vars->map_width = i;
+	vars->map_width = width;
 }
 
 void	gen_map(t_vars *vars)
 {
 	int		x;
 	int		y;
+	t_cntchr	cnt_chr;
 
+	cnt_chr.cnt_player = 0;
+	cnt_chr.cnt_exit = 0;
 	y = -1;
 	while (++y < vars->map_height)
 	{
@@ -135,22 +144,36 @@ void	gen_map(t_vars *vars)
 		{
 			if (vars->map[y][x] == '0')
 				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, x * TILE_SIZE, y * TILE_SIZE);
-			if (vars->map[y][x] == '1')
+			else if (vars->map[y][x] == '1')
 				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->wall_img, x * TILE_SIZE, y * TILE_SIZE);
-			if (vars->map[y][x] == 'P')
+			else if (vars->map[y][x] == 'P')
 			{
 				vars->player_point.x = x;
 				vars->player_point.y = y;
+				cnt_chr.cnt_player++;
 				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, x * TILE_SIZE, y * TILE_SIZE);
 			}
-			if (vars->map[y][x] == 'C')
+			else if (vars->map[y][x] == 'C')
 			{
 				vars->collectible++;
 				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->collectible_img, x * TILE_SIZE, y * TILE_SIZE);
 			}
-			if (vars->map[y][x] == 'E')
+			else if (vars->map[y][x] == 'E')
+			{
+				cnt_chr.cnt_exit++;
 				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->exit_img, x * TILE_SIZE, y * TILE_SIZE);
+			}
+			else
+			{
+				printf("invalid map\n");
+
+			}
 		}
+	}
+	if (cnt_chr.cnt_player != 1 || !cnt_chr.cnt_exit || !vars->collectible)
+	{
+		printf("invalid map\n");
+		destroy_and_exit(vars);
 	}
 }
 
@@ -175,14 +198,11 @@ void	vars_init(t_vars *vars)
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
-	int		img_width;
-	int		img_height;
 
 	printf("\033[2J\033[%d;%dH", 1, 1);
 	read_map(&vars, argv[1]);
 	vars_init(&vars);
 	gen_map(&vars);
-
 	mlx_key_hook(vars.mlx_win, key_hook, &vars);
 	mlx_loop(vars.mlx);
 }
