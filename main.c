@@ -1,33 +1,64 @@
 #include "./include/so_long.h"
 
+// void end(void)__attribute__((destructor));
+
+// void end(void)
+// {
+//     system("leaks so_long");
+// }
+
 int	key_hook(int key_code, t_vars *vars)
 {
 	static int cnt;
+
 	if (key_code == W)
 	{
-		vars->player_point.y -= 60;
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x, vars->player_point.y);
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, vars->player_point.x, vars->player_point.y + 60);
+		if (vars->map[vars->player_point.y - 1][vars->player_point.x] == '1')
+			return (0);
+		vars->player_point.y -= 1;
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x * TILE_SIZE, vars->player_point.y * TILE_SIZE);
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, vars->player_point.x * TILE_SIZE, (vars->player_point.y + 1) * TILE_SIZE);
 	}
 	if (key_code == A)
 	{
-		vars->player_point.x -= 60;
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x, vars->player_point.y);
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, vars->player_point.x + 60, vars->player_point.y);
+		if (vars->map[vars->player_point.y][vars->player_point.x - 1] == '1')
+			return (0);
+		vars->player_point.x -= 1;
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x * TILE_SIZE, vars->player_point.y * TILE_SIZE);
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, (vars->player_point.x + 1) * TILE_SIZE, vars->player_point.y * TILE_SIZE);
 	}
 	if (key_code == S)
 	{
-		vars->player_point.y += 60;
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x, vars->player_point.y);
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, vars->player_point.x, vars->player_point.y - 60);
+		if (vars->map[vars->player_point.y + 1][vars->player_point.x] == '1')
+			return (0);
+		vars->player_point.y += 1;
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x * TILE_SIZE, vars->player_point.y * TILE_SIZE);
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, vars->player_point.x * TILE_SIZE, (vars->player_point.y - 1) * TILE_SIZE);
 	}
 	if (key_code == D)
 	{
-		vars->player_point.x +=60;
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x, vars->player_point.y);
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, vars->player_point.x - 60, vars->player_point.y);
+		if (vars->map[vars->player_point.y][vars->player_point.x + 1] == '1')
+			return (0);
+		vars->player_point.x += 1;
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, vars->player_point.x * TILE_SIZE, vars->player_point.y * TILE_SIZE);
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, (vars->player_point.x - 1) * TILE_SIZE, vars->player_point.y * TILE_SIZE);
 	}
-	printf("cnt : %d\n", cnt);
+	if (key_code == ESC)
+	{
+		//destroy image
+		mlx_destroy_image(vars->mlx, vars->player_img);
+		mlx_destroy_image(vars->mlx, vars->tile_img);
+		mlx_destroy_image(vars->mlx, vars->wall_img);
+		mlx_destroy_image(vars->mlx, vars->exit_img);
+		mlx_destroy_image(vars->mlx, vars->collectible_img);
+		//destroy window
+		mlx_destroy_window(vars->mlx, vars->mlx_win);
+		exit(EXIT_SUCCESS);
+	}
+	printf("x: %d\n", vars->player_point.x);
+	printf("y: %d\n", vars->player_point.y);
+	printf("step count: %d\n", cnt);
+	printf("ley_code: %d\n", key_code);
 	cnt++;
 	return (0);
 }
@@ -46,6 +77,9 @@ void	read_map(t_vars *vars, char *map_name)
 			i++;
 		free(tmp);
 	}
+	if (tmp[0])
+		i++;
+	free(tmp);
 	vars->map_height = i;
 	close(fd);
 	fd = open(map_name, O_RDONLY);
@@ -58,6 +92,11 @@ void	read_map(t_vars *vars, char *map_name)
 			vars->map[i] = tmp;
 			i++;
 		}
+	}
+	if (tmp[0])
+	{
+		vars->map[i] = tmp;
+		i++;
 	}
 }
 
@@ -78,27 +117,27 @@ void	gen_map(t_vars *vars)
 	int		x;
 	int		y;
 
-	y = 0;
-
-	vars->player_point.x = 60;
-	vars->player_point.y = 60;
-
-	while (y < vars->map_height)
+	y = -1;
+	while (++y < vars->map_height)
 	{
-		x = 0;
-		while (x < vars->map_width)
+		x = -1;
+		while (++x < vars->map_width)
 		{
 			if (vars->map[y][x] == '0')
 				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, x * TILE_SIZE, y * TILE_SIZE);
 			if (vars->map[y][x] == '1')
 				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->wall_img, x * TILE_SIZE, y * TILE_SIZE);
 			if (vars->map[y][x] == 'P')
+			{
+				vars->player_point.x = x;
+				vars->player_point.y = y;
 				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, x * TILE_SIZE, y * TILE_SIZE);
+			}
 			if (vars->map[y][x] == 'C')
 				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->collectible_img, x * TILE_SIZE, y * TILE_SIZE);
-			x++;
+			if (vars->map[y][x] == 'E')
+				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->exit_img, x * TILE_SIZE, y * TILE_SIZE);
 		}
-		y++;
 	}
 }
 
@@ -114,6 +153,7 @@ void	vars_init(t_vars *vars)
 	vars->player_img = mlx_xpm_file_to_image(vars->mlx, PLAYER_IMG_PATH, &img_width, &img_height);
 	vars->collectible_img = mlx_xpm_file_to_image(vars->mlx, COLLECTIBLE_IMG_PATH, &img_width, &img_height);
 	vars->wall_img = mlx_xpm_file_to_image(vars->mlx, WALL_IMG_PATH, &img_width, &img_height);
+	vars->exit_img = mlx_xpm_file_to_image(vars->mlx, EXIT_IMG_PATH, &img_width, &img_height);
 }
 
 int	main(int argc, char **argv)
