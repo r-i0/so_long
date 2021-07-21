@@ -27,6 +27,8 @@ typedef struct s_point
 	int	y;
 }	t_point;
 
+
+
 typedef struct s_vars
 {
 	void	*mlx;
@@ -40,6 +42,9 @@ typedef struct s_vars
 	int		map_height;
 	int		map_width;
 	t_point	player_point;
+	int		collectible;
+	int		collected;
+	int		step_cnt;
 }	t_vars;
 
 #endif
