@@ -6,11 +6,11 @@
 # define D 100
 # define ESC 65307
 # define TILE_SIZE 60
-# define PLAYER_IMG_PATH "./player4.xpm"
-# define TILE_IMG_PATH "./tile2.xpm"
-# define COLLECTIBLE_IMG_PATH "./collectible.xpm"
-# define WALL_IMG_PATH "./wall.xpm"
-# define EXIT_IMG_PATH "./exit.xpm"
+# define PLAYER_IMG_PATH "./img_src/player4.xpm"
+# define TILE_IMG_PATH "./img_src/tile2.xpm"
+# define COLLECTIBLE_IMG_PATH "./img_src/collectible.xpm"
+# define WALL_IMG_PATH "./img_src/wall.xpm"
+# define EXIT_IMG_PATH "./img_src/exit.xpm"
 
 # include "../mlx-linux/mlx.h"
 # include "../get_next_line/get_next_line.h"

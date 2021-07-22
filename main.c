@@ -2,12 +2,21 @@
 
 void	destroy_and_exit(t_vars *vars)
 {
+	int	i;
+
+	i = 0;
 	mlx_destroy_image(vars->mlx, vars->player_img);
 	mlx_destroy_image(vars->mlx, vars->tile_img);
 	mlx_destroy_image(vars->mlx, vars->wall_img);
 	mlx_destroy_image(vars->mlx, vars->exit_img);
 	mlx_destroy_image(vars->mlx, vars->collectible_img);
 	mlx_destroy_window(vars->mlx, vars->mlx_win);
+	free(vars->mlx);
+	while (vars->map[i])
+	{
+		free(vars->map[i]);
+		i++;
+	}
 	exit(EXIT_SUCCESS);
 }
 
@@ -72,36 +81,50 @@ void	read_map(t_vars *vars, char *map_name)
 	int	fd;
 	char *tmp;
 	int i;
+	int	ret;
 
 	i = 0;
 	fd = open(map_name, O_RDONLY);
-	while (get_next_line(fd, &tmp))
+	ret = 1;
+	while (ret)
 	{
+		ret = get_next_line(fd, &tmp);
 		if (tmp[0])
 			i++;
 		free(tmp);
 	}
-	if (tmp[0])
-		i++;
-	free(tmp);
 	vars->map_height = i;
 	close(fd);
 	fd = open(map_name, O_RDONLY);
 	vars->map = (char**)malloc(sizeof(char*) * vars->map_height);
 	i = 0;
-	while (get_next_line(fd, &tmp))
+	ret = 1;
+	while (ret)
 	{
+		ret = get_next_line(fd, &tmp);
 		if (tmp[0])
 		{
 			vars->map[i] = tmp;
 			i++;
 		}
+		else
+			free(tmp);
 	}
-	if (tmp[0])
-	{
-		vars->map[i] = tmp;
-		i++;
-	}
+
+		// i  = 0;
+		// int j;
+		// while (vars->map[i])
+		// {
+		// 	j = 0;
+		// 	while (vars->map[i][j])
+		// 	{
+		// 		printf("%c", vars->map[i][j]);
+		// 		j++;
+		// 	}
+		// 	printf("\n");
+		// 	i++;
+		// }
+		// exit(0);
 }
 
 void	cnt_map_width(t_vars *vars)
@@ -122,10 +145,42 @@ void	cnt_map_width(t_vars *vars)
 		else if (width != x)
 		{
 			printf("error\n");
+			// mlx_destroy_window(vars->mlx, vars->mlx_win);
+			exit(0);
 		}
 		y++;
 	}
 	vars->map_width = width;
+}
+
+void	put_map_image(t_vars *vars, int x, int y, t_cntchr *cnt_chr)
+{
+	if (vars->map[y][x] == '0')
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, x * TILE_SIZE, y * TILE_SIZE);
+	else if (vars->map[y][x] == '1')
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->wall_img, x * TILE_SIZE, y * TILE_SIZE);
+	else if (vars->map[y][x] == 'P')
+	{
+		vars->player_point.x = x;
+		vars->player_point.y = y;
+		cnt_chr->cnt_player++;
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, x * TILE_SIZE, y * TILE_SIZE);
+	}
+	else if (vars->map[y][x] == 'C')
+	{
+		vars->collectible++;
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->collectible_img, x * TILE_SIZE, y * TILE_SIZE);
+	}
+	else if (vars->map[y][x] == 'E')
+	{
+		cnt_chr->cnt_exit++;
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->exit_img, x * TILE_SIZE, y * TILE_SIZE);
+	}
+	// else
+	// {
+	// 	printf("invalid map\n");
+
+	// }
 }
 
 void	gen_map(t_vars *vars)
@@ -142,32 +197,7 @@ void	gen_map(t_vars *vars)
 		x = -1;
 		while (++x < vars->map_width)
 		{
-			if (vars->map[y][x] == '0')
-				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->tile_img, x * TILE_SIZE, y * TILE_SIZE);
-			else if (vars->map[y][x] == '1')
-				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->wall_img, x * TILE_SIZE, y * TILE_SIZE);
-			else if (vars->map[y][x] == 'P')
-			{
-				vars->player_point.x = x;
-				vars->player_point.y = y;
-				cnt_chr.cnt_player++;
-				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->player_img, x * TILE_SIZE, y * TILE_SIZE);
-			}
-			else if (vars->map[y][x] == 'C')
-			{
-				vars->collectible++;
-				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->collectible_img, x * TILE_SIZE, y * TILE_SIZE);
-			}
-			else if (vars->map[y][x] == 'E')
-			{
-				cnt_chr.cnt_exit++;
-				mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->exit_img, x * TILE_SIZE, y * TILE_SIZE);
-			}
-			else
-			{
-				printf("invalid map\n");
-
-			}
+			put_map_image(vars, x, y, &cnt_chr);
 		}
 	}
 	if (cnt_chr.cnt_player != 1 || !cnt_chr.cnt_exit || !vars->collectible)
