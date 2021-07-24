@@ -12,4 +12,5 @@ char	*ft_strchr(const char *s, int c);
 int		check_memo(char *memo);
 int		free_and_return(char **tmp);
 int		get_next_line(int fd, char **line);
+
 #endif

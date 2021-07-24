@@ -68,9 +68,6 @@ int	check_memo(char *memo)
 
 int	put_to_line_eof(char **memo, char **line)
 {
-	int	i;
-
-	i = 0;
 	*line = ft_strdup(*memo);
 	free(*memo);
 	*memo = NULL;
