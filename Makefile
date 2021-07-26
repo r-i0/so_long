@@ -9,7 +9,7 @@ SRC_DIR	=	./src/
 MLX_DIR	=	./mlx-linux/
 GNL_DIR	=	./get_next_line/
 
-SRC		=	$(SRC_DIR)main.c $(SRC_DIR)read_map.c $(SRC_DIR)put.c $(SRC_DIR)init_vars.c $(SRC_DIR)destroy_and_exit.c \
+SRC		=	$(SRC_DIR)main.c $(SRC_DIR)read_map.c $(SRC_DIR)put.c $(SRC_DIR)init_vars.c $(SRC_DIR)destroy_and_exit.c $(SRC_DIR)loop_draw.c $(SRC_DIR)key_hook.c $(SRC_DIR)check_map.c \
 			$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 GNL_SRC	=	$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 OBJ		=	$(SRC:.c=.o)
@@ -36,4 +36,4 @@ re		:	fclean all
 valgrind	:
 	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/sample1.ber
 
-.PHONY	:	all clean fclean re
+.PHONY	:	all clean fclean re valgrind

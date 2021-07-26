@@ -1,11 +1,9 @@
 #include "../include/so_long.h"
 
-void img_destroy(t_vars *vars)
+void	img_destroy(t_vars *vars)
 {
 	if (vars->img.player_img)
-	{
 		mlx_destroy_image(vars->mlx, vars->img.player_img);
-	}
 	if (vars->img.tile_img)
 		mlx_destroy_image(vars->mlx, vars->img.tile_img);
 	if (vars->img.wall_img)
@@ -16,9 +14,9 @@ void img_destroy(t_vars *vars)
 		mlx_destroy_image(vars->mlx, vars->img.collectible_img);
 }
 
-int destroy_and_exit(t_vars *vars)
+int	destroy_and_exit(t_vars *vars)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	if (vars->mlx_win)

@@ -6,16 +6,17 @@
 # define D 100
 # define ESC 65307
 # define TILE_SIZE 60
-# define PLAYER_IMG_PATH "./img_src/player4.xpm"
-# define TILE_IMG_PATH "./img_src/tile2.xpm"
-# define COLLECTIBLE_IMG_PATH "./img_src/collectible.xpm"
-# define WALL_IMG_PATH "./img_src/wall.xpm"
-# define EXIT_IMG_PATH "./img_src/exit2.xpm"
+# define PLAYER_IMG "./img_src/player4.xpm"
+# define TILE_IMG "./img_src/tile2.xpm"
+# define COLLECTIBLE_IMG "./img_src/collectible.xpm"
+# define WALL_IMG "./img_src/wall.xpm"
+# define EXIT_IMG "./img_src/exit2.xpm"
 
 # include "../mlx-linux/mlx.h"
 # include "../get_next_line/get_next_line.h"
 # include <stdlib.h>
 # include <stdio.h>
+# include <stdbool.h>
 # include <unistd.h>
 # include <stdbool.h>
 # include <fcntl.h>
@@ -53,7 +54,8 @@ typedef struct s_vars
 	int		collectible;
 	int		collected;
 	int		step_cnt;
-	t_point	player_point;
+	bool	err;
+	t_point	p_pos;
 	t_img	img;
 }	t_vars;
 
@@ -62,4 +64,8 @@ void ft_putstr_fd(char *s, int fd);
 void ft_putnbr_fd(int n, int fd);
 void init_vars(t_vars *vars);
 int destroy_and_exit(t_vars *vars);
+int loop_draw(t_vars *vars);
+int key_hook(int key_code, t_vars *vars);
+int check_map(t_vars *vars);
+
 #endif
