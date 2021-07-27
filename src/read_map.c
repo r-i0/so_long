@@ -1,7 +1,10 @@
 #include "../include/so_long.h"
 
-void	img_init(t_vars *vars)
+static void	img_init(t_vars *vars)
 {
+	vars->map = NULL;
+	vars->mlx = NULL;
+	vars->mlx_win = NULL;
 	vars->img.player_img = NULL;
 	vars->img.tile_img = NULL;
 	vars->img.wall_img = NULL;
@@ -9,7 +12,7 @@ void	img_init(t_vars *vars)
 	vars->img.collectible_img = NULL;
 }
 
-int	check_tmp(t_vars *vars, int ret, char *tmp, int flag)
+static int	check_tmp(t_vars *vars, int ret, char *tmp, int flag)
 {
 	if (ret == -1)
 		exit(1);
@@ -17,9 +20,7 @@ int	check_tmp(t_vars *vars, int ret, char *tmp, int flag)
 	{
 		if (vars->map_height && flag == 0)
 		{
-			ft_putstr_fd("Error\n", STDOUT_FILENO);
-			ft_putstr_fd("Invalid map\n", STDOUT_FILENO);
-			destroy_and_exit(vars);
+			vars->err = true;
 		}
 		vars->map_height++;
 		return (1);
@@ -28,7 +29,7 @@ int	check_tmp(t_vars *vars, int ret, char *tmp, int flag)
 		return (0);
 }
 
-void	cnt_map_height(t_vars *vars, char *map_name)
+static void	cnt_map_height(t_vars *vars, char *map_name)
 {
 	int		fd;
 	int		ret;

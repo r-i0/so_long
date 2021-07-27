@@ -22,10 +22,15 @@ INCLUDE	=	./include
 
 all		:	$(NAME)
 
-$(NAME)	:	$(OBJ)
+$(MLX_DIR)	:
+	git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR)
+
+$(NAME)	:	$(MLX_DIR) $(OBJ)
+	$(MAKE) -C $(MLX_DIR)
 	$(CC) $(CFLAGS) -I $(MLX_DIR) $(OBJ) -L $(MLX_DIR) $(FLAGS) -o $@
 
 clean	:
+	$(MAKE) -C $(MLX_DIR) clean
 	$(RM) $(OBJ) $(GNL_OBJ)
 
 fclean	:	clean
@@ -33,7 +38,17 @@ fclean	:	clean
 
 re		:	fclean all
 
-valgrind	:
+valgrind1	:
 	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/sample1.ber
+valgrind2	:
+	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/maltiple_map.ber
+valgrind3	:
+	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/maltiple_player.ber
+valgrind4	:
+	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/no_exit.ber
+valgrind5	:
+	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/not_close1.ber
+valgrind6	:
+	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/not_rectangle.ber
 
 .PHONY	:	all clean fclean re valgrind
