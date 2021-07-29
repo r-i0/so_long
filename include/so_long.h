@@ -1,18 +1,34 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
-# define W 119
-# define A 97
-# define S 115
-# define D 100
-# define ESC 65307
-# define TILE_SIZE 60
+// # define W 119
+// # define A 97
+// # define S 115
+// # define D 100
+// # define ESC 65307
+// # define TILE_SIZE 60
 # define PLAYER_IMG "./img_src/player4.xpm"
 # define TILE_IMG "./img_src/tile2.xpm"
 # define COLLECTIBLE_IMG "./img_src/collectible.xpm"
 # define WALL_IMG "./img_src/wall.xpm"
 # define EXIT_IMG "./img_src/exit2.xpm"
+#ifdef __linux__
+#define K_W 119
+#define K_A 97
+#define K_S 115
+#define K_D 100
+#define K_ESC 65307
+// #define IS_LINUX 1
+#else
+#define K_W 13
+#define K_A 0
+#define K_S 1
+#define K_D 2
+#define K_ESC 53
+// #define IS_LINUX 0
+void mlx_destroy_display(void *ptr);
+#endif
 
-# include "../mlx-linux/mlx.h"
+# include "../mlx/mlx.h"
 # include "../get_next_line/get_next_line.h"
 # include <stdlib.h>
 # include <stdio.h>
