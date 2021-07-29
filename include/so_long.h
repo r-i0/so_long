@@ -5,7 +5,7 @@
 // # define S 115
 // # define D 100
 // # define ESC 65307
-// # define TILE_SIZE 60
+# define TILE_SIZE 60
 # define PLAYER_IMG "./img_src/player4.xpm"
 # define TILE_IMG "./img_src/tile2.xpm"
 # define COLLECTIBLE_IMG "./img_src/collectible.xpm"
