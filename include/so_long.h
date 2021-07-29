@@ -12,6 +12,7 @@
 # define WALL_IMG "./img_src/wall.xpm"
 # define EXIT_IMG "./img_src/exit2.xpm"
 #ifdef __linux__
+# include "../mlx-linux/mlx.h"
 #define K_W 119
 #define K_A 97
 #define K_S 115
@@ -19,6 +20,7 @@
 #define K_ESC 65307
 // #define IS_LINUX 1
 #else
+# include "../mlx-mac/mlx.h"
 #define K_W 13
 #define K_A 0
 #define K_S 1
@@ -28,7 +30,6 @@
 void mlx_destroy_display(void *ptr);
 #endif
 
-# include "../mlx/mlx.h"
 # include "../get_next_line/get_next_line.h"
 # include <stdlib.h>
 # include <stdio.h>
