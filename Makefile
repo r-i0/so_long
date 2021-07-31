@@ -1,10 +1,12 @@
 NAME	=	so_long
+B_NAME	=	so_long_bonus
 
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
 RM		=	rm -rf
 
 SRC_DIR	=	./src/
+B_DIR	=	./bonus_src/
 GNL_DIR	=	./get_next_line/
 
 ifeq ($(shell uname), Darwin)
@@ -17,11 +19,16 @@ else
 	MLX_DIR	=	./mlx-linux/
 endif
 
+GNL_SRC	=	$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 SRC		=	$(SRC_DIR)main.c $(SRC_DIR)read_map.c $(SRC_DIR)put.c $(SRC_DIR)init_vars.c \
 			$(SRC_DIR)destroy_and_exit.c $(SRC_DIR)loop_draw.c $(SRC_DIR)key_hook.c $(SRC_DIR)check_map.c \
-			$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
-GNL_SRC	=	$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
+			$(GNL_SRC)
+B_SRC	=	$(B_DIR)main_bonus.c $(B_DIR)loop_draw_bonus.c $(B_DIR)read_map_bonus.c $(B_DIR)put_bonus.c $(B_DIR)init_vars_bonus.c \
+			$(B_DIR)destroy_and_exit_bonus.c $(B_DIR)loop_draw_bonus.c $(B_DIR)key_hook_bonus.c $(B_DIR)check_map_bonus.c \
+			$(GNL_SRC)
+
 OBJ		=	$(SRC:.c=.o)
+B_OBJ	=	$(B_SRC:.c=.o)
 GNL_OGJ	=	$(GNL_SRC:.c=.o)
 
 INCLUDE	=	./include
@@ -40,12 +47,19 @@ $(NAME)	:	$(MLX_DIR) $(OBJ)
 
 clean	:
 	$(MAKE) -C $(MLX_DIR) clean
-	$(RM) $(OBJ) $(GNL_OBJ)
+	$(RM) $(OBJ) $(B_OBJ)
 
-fclean	:	clean
-	$(RM) $(NAME)
+fclean	:
+	$(RM) $(MLX_DIR)
+	$(RM) $(NAME) $(B_NAME) $(OBJ) $(B_OBJ)
 
 re		:	fclean all
+
+bonus	:	$(B_NAME)
+
+$(B_NAME)	:	$(MLX_DIR) $(B_OBJ)
+	$(MAKE) -C $(MLX_DIR)
+	$(CC) $(CFLAGS) -I $(MLX_DIR) $(B_OBJ) -L $(MLX_DIR) $(FLAGS) -o $@
 
 valgrind1	:
 	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/sample1.ber

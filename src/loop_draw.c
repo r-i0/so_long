@@ -1,6 +1,6 @@
 #include "../include/so_long.h"
 
-void	draw_tile(t_vars *vars, int x, int y)
+static void	draw_tile(t_vars *vars, int x, int y)
 {
 	if (vars->map[y][x] == '0')
 		mlx_put_image_to_window(vars->mlx, vars->mlx_win,
@@ -43,5 +43,6 @@ int	loop_draw(t_vars *vars)
 	}
 	while (++x < 10000)
 		write(2, "", 0);
+
 	return (0);
 }
