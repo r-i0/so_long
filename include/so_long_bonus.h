@@ -12,17 +12,19 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 
-enum	e_player_img
+enum	e_p_direciton
 {
-	FRONT1,
-	FRONT2,
-	LEFT1,
-	LEFT2,
-	RIGHT1,
-	RIGHT2,
-	BACK1,
-	BACK2,
+	FRONT,
+	LEFT,
+	RIGHT,
+	BACK,
 	NUM
+};
+
+enum	e_p_action
+{
+	ACTION1,
+	ACTION2
 };
 
 typedef struct s_point
@@ -39,11 +41,12 @@ typedef struct s_ischr
 
 typedef struct s_img
 {
-	void	*player_img[NUM];
+	void	*player_img[4][2];
 	void	*tile_img;
 	void	*wall_img;
 	void	*exit_img;
 	void	*collectible_img;
+	void	*gray_img;
 }	t_img;
 
 typedef struct s_vars
@@ -57,6 +60,7 @@ typedef struct s_vars
 	int		collected;
 	int		step_cnt;
 	int		direction;
+	int		action;
 	bool	err;
 	t_point	p_pos;
 	t_img	img;
@@ -70,5 +74,8 @@ int 	destroy_and_exit(t_vars *vars);
 // int 	loop_draw(t_vars *vars);
 int 	key_hook(int key_code, t_vars *vars);
 int 	check_map(t_vars *vars);
-
+char 	*ft_strjoin(char const *s1, char const *s2);
+char 	*ft_itoa(int n);
+void 	put_back_gray(t_vars *vars);
+void 	put_step_to_window(t_vars *vars);
 #endif

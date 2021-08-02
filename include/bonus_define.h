@@ -19,5 +19,6 @@
 # define COLLECTIBLE "./img_src/bonus/collectible40.xpm"
 # define TILE "./img_src/bonus/tile40.xpm"
 # define WALL "./img_src/bonus/wall40.xpm"
+# define GRAY "./img_src/bonus/gray.xpm"
 
 #endif
