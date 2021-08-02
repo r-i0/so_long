@@ -20,5 +20,6 @@
 # define TILE "./img_src/bonus/tile40.xpm"
 # define WALL "./img_src/bonus/wall40.xpm"
 # define GRAY "./img_src/bonus/gray.xpm"
+# define P_EXIT "./img_src/bonus/exit_player.xpm"
 
 #endif

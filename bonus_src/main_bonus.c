@@ -14,9 +14,8 @@ static void	draw_tile(t_vars *vars, int x, int y)
 	{
 		vars->p_pos.x = x;
 		vars->p_pos.y = y;
-		mlx_put_image_to_window(vars->mlx, vars->mlx_win,
-			vars->img.player_img[vars->direction][vars->action],
-			x * TILE_SIZE, y * TILE_SIZE);
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.player_img \
+			[vars->direction][vars->action], x * TILE_SIZE, y * TILE_SIZE);
 	}
 	else if (vars->map[y][x] == 'C')
 	{
@@ -30,16 +29,27 @@ static void	draw_tile(t_vars *vars, int x, int y)
 	}
 }
 
-int	loop_draw(t_vars *vars)
+void	check_end_game(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	if (vars->end == true)
+	{
+		while (++i < 4000000)
+			write(2, "", 0);
+		destroy_and_exit(vars);
+	}
+}
+
+static int	loop_draw(t_vars *vars)
 {
 	int			x;
 	int			y;
 	static int	i;
 
 	y = -1;
-	while (++y > 5000)
-		;
-	y = -1;
+	check_end_game(vars);
 	while (++y < vars->map_height)
 	{
 		x = -1;
@@ -49,16 +59,12 @@ int	loop_draw(t_vars *vars)
 		}
 	}
 	i++;
-	if (i == 1000 && vars->action == ACTION1)
-	{
+	if (i == 600 && vars->action == ACTION1)
 		vars->action++;
-		i = 0;
-	}
-	else if (i == 500 && vars->action == ACTION2)
-	{
+	else if (i == 600 && vars->action == ACTION2)
 		vars->action--;
+	if (i == 600)
 		i = 0;
-	}
 	return (0);
 }
 

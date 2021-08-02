@@ -1,10 +1,10 @@
 #include "../include/so_long_bonus.h"
 
-char *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int i;
-	int j;
-	char *joined_str;
+	int		i;
+	int		j;
+	char	*joined_str;
 
 	i = 0;
 	j = 0;

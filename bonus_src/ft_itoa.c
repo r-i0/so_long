@@ -1,8 +1,8 @@
 #include "../include/so_long_bonus.h"
 
-static int cnt_digit(int num)
+static int	cnt_digit(int num)
 {
-	int digit;
+	int	digit;
 
 	digit = 0;
 	if (num <= 0)
@@ -15,9 +15,9 @@ static int cnt_digit(int num)
 	return (digit);
 }
 
-static char *make_str(char *str, long num, int digit)
+static char	*make_str(char *str, long num, int digit)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	str[digit] = '\0';
@@ -37,11 +37,11 @@ static char *make_str(char *str, long num, int digit)
 	return (str);
 }
 
-char *ft_itoa(int n)
+char	*ft_itoa(int n)
 {
-	char *str;
-	int digit;
-	long num;
+	char	*str;
+	int		digit;
+	long	num;
 
 	num = (long)n;
 	digit = cnt_digit(num);

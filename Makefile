@@ -23,8 +23,8 @@ GNL_SRC	=	$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 SRC		=	$(SRC_DIR)main.c $(SRC_DIR)read_map.c $(SRC_DIR)put.c $(SRC_DIR)init_vars.c \
 			$(SRC_DIR)destroy_and_exit.c $(SRC_DIR)loop_draw.c $(SRC_DIR)key_hook.c $(SRC_DIR)check_map.c \
 			$(GNL_SRC)
-B_SRC	=	$(B_DIR)main_bonus.c $(B_DIR)loop_draw_bonus.c $(B_DIR)read_map_bonus.c $(B_DIR)put_bonus.c $(B_DIR)init_vars_bonus.c \
-			$(B_DIR)destroy_and_exit_bonus.c $(B_DIR)loop_draw_bonus.c $(B_DIR)key_hook_bonus.c $(B_DIR)check_map_bonus.c \
+B_SRC	=	$(B_DIR)main_bonus.c $(B_DIR)read_map_bonus.c $(B_DIR)put_bonus.c $(B_DIR)init_vars_bonus.c \
+			$(B_DIR)destroy_and_exit_bonus.c $(B_DIR)key_hook_bonus.c $(B_DIR)check_map_bonus.c \
 			$(B_DIR)ft_itoa.c $(B_DIR)ft_strjoin.c \
 			$(GNL_SRC)
 

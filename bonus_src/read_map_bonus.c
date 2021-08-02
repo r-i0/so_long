@@ -5,7 +5,14 @@ static void	img_init(t_vars *vars)
 	vars->map = NULL;
 	vars->mlx = NULL;
 	vars->mlx_win = NULL;
-	vars->img.player_img[0] = NULL;//
+	vars->img.player_img[FRONT][ACTION1] = NULL;
+	vars->img.player_img[FRONT][ACTION2] = NULL;
+	vars->img.player_img[LEFT][ACTION1] = NULL;
+	vars->img.player_img[LEFT][ACTION2] = NULL;
+	vars->img.player_img[RIGHT][ACTION1] = NULL;
+	vars->img.player_img[RIGHT][ACTION2] = NULL;
+	vars->img.player_img[BACK][ACTION1] = NULL;
+	vars->img.player_img[BACK][ACTION2] = NULL;
 	vars->img.tile_img = NULL;
 	vars->img.wall_img = NULL;
 	vars->img.exit_img = NULL;

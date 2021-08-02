@@ -61,11 +61,12 @@ void	set_image(t_vars *vars)
 	vars->img.wall_img = mlx_xpm_file_to_image(vars->mlx, WALL, &x, &y);
 	vars->img.exit_img = mlx_xpm_file_to_image(vars->mlx, EXIT, &x, &y);
 	vars->img.gray_img = mlx_xpm_file_to_image(vars->mlx, GRAY, &x, &y);
+	vars->img.p_exit = mlx_xpm_file_to_image(vars->mlx, P_EXIT, &x, &y);
 }
 
 bool	check_allocate(t_vars *vars)
 {
-	if (!vars->mlx || !vars->mlx_win
+	if (!vars->mlx || !vars->mlx_win || !vars->img.p_exit
 		|| !vars->img.tile_img || !vars->img.collectible_img
 		|| !vars->img.wall_img || !vars->img.exit_img
 		|| !vars->img.player_img[FRONT][ACTION1]
@@ -96,4 +97,5 @@ void	init_vars(t_vars *vars)
 	vars->step_cnt = 0;
 	vars->direction = FRONT;
 	vars->action = ACTION1;
+	vars->end = false;
 }

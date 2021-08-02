@@ -47,6 +47,7 @@ typedef struct s_img
 	void	*exit_img;
 	void	*collectible_img;
 	void	*gray_img;
+	void	*p_exit;
 }	t_img;
 
 typedef struct s_vars
@@ -62,6 +63,7 @@ typedef struct s_vars
 	int		direction;
 	int		action;
 	bool	err;
+	bool	end;
 	t_point	p_pos;
 	t_img	img;
 }	t_vars;
