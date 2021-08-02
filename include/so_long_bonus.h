@@ -68,16 +68,16 @@ typedef struct s_vars
 	t_img	img;
 }	t_vars;
 
-void 	read_map(t_vars *vars, char *map_name);
-void 	ft_putstr_fd(char *s, int fd);
-void 	ft_putnbr_fd(int n, int fd);
-void 	init_vars(t_vars *vars);
-int 	destroy_and_exit(t_vars *vars);
-// int 	loop_draw(t_vars *vars);
-int 	key_hook(int key_code, t_vars *vars);
-int 	check_map(t_vars *vars);
-char 	*ft_strjoin(char const *s1, char const *s2);
-char 	*ft_itoa(int n);
-void 	put_back_gray(t_vars *vars);
-void 	put_step_to_window(t_vars *vars);
+void	read_map(t_vars *vars, char *map_name);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putnbr_fd(int n, int fd);
+void	init_vars(t_vars *vars);
+int		destroy_and_exit(t_vars *vars);
+int		key_hook(int key_code, t_vars *vars);
+int		check_map(t_vars *vars);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_itoa(int n);
+void	put_back_gray(t_vars *vars);
+void	put_info_to_window(t_vars *vars);
+
 #endif

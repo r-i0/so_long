@@ -1,5 +1,18 @@
 #include "../include/so_long_bonus.h"
 
+void	put_back_gray(t_vars *vars)
+{
+	int	x;
+
+	x = 0;
+	while (x < vars->map_width)
+	{
+		mlx_put_image_to_window(vars->mlx, vars->mlx_win, vars->img.gray_img,
+			x * TILE_SIZE, vars->map_height * TILE_SIZE);
+		x++;
+	}
+}
+
 static void	draw_tile(t_vars *vars, int x, int y)
 {
 	if (vars->map[y][x] == '0')
@@ -81,7 +94,7 @@ int	main(int argc, char **argv)
 	read_map(&vars, argv[1]);
 	init_vars(&vars);
 	check_map(&vars);
-	put_step_to_window(&vars);
+	put_info_to_window(&vars);
 	mlx_loop_hook(vars.mlx, loop_draw, &vars);
 	mlx_key_hook(vars.mlx_win, key_hook, &vars);
 	mlx_hook(vars.mlx_win, 33, 1L << 17, destroy_and_exit, &vars);

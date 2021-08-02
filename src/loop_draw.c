@@ -43,6 +43,5 @@ int	loop_draw(t_vars *vars)
 	}
 	while (++x < 10000)
 		write(2, "", 0);
-
 	return (0);
 }

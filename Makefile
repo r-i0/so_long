@@ -25,7 +25,7 @@ SRC		=	$(SRC_DIR)main.c $(SRC_DIR)read_map.c $(SRC_DIR)put.c $(SRC_DIR)init_vars
 			$(GNL_SRC)
 B_SRC	=	$(B_DIR)main_bonus.c $(B_DIR)read_map_bonus.c $(B_DIR)put_bonus.c $(B_DIR)init_vars_bonus.c \
 			$(B_DIR)destroy_and_exit_bonus.c $(B_DIR)key_hook_bonus.c $(B_DIR)check_map_bonus.c \
-			$(B_DIR)ft_itoa.c $(B_DIR)ft_strjoin.c \
+			$(B_DIR)ft_itoa.c $(B_DIR)ft_strjoin.c $(B_DIR)put_step_to_window.c \
 			$(GNL_SRC)
 
 OBJ		=	$(SRC:.c=.o)
@@ -61,6 +61,7 @@ bonus	:	$(B_NAME)
 $(B_NAME)	:	$(MLX_DIR) $(B_OBJ)
 	$(MAKE) -C $(MLX_DIR)
 	$(CC) $(CFLAGS) -I $(MLX_DIR) $(B_OBJ) -L $(MLX_DIR) $(FLAGS) -o $@
+	@mv $(B_NAME) $(NAME)
 
 valgrind1	:
 	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/sample1.ber
