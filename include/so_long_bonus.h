@@ -62,6 +62,7 @@ typedef struct s_vars
 	int		step_cnt;
 	int		direction;
 	int		action;
+	int		exit_status;
 	bool	err;
 	bool	end;
 	t_point	p_pos;

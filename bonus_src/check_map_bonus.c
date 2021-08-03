@@ -69,6 +69,7 @@ int	check_map(t_vars *vars)
 	{
 		ft_putstr_fd("Error\n", STDOUT_FILENO);
 		ft_putstr_fd("Invalid map\n", STDOUT_FILENO);
+		vars->exit_status = EXIT_FAILURE;
 		destroy_and_exit(vars);
 	}
 	return (0);

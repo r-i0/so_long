@@ -33,6 +33,6 @@ int	destroy_and_exit(t_vars *vars)
 			free(vars->map[i]);
 		free(vars->map);
 	}
-	exit(EXIT_SUCCESS);
+	exit(vars->exit_status);
 	return (0);
 }

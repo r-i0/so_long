@@ -44,6 +44,7 @@ static void	cnt_map_height(t_vars *vars, char *map_name)
 	{
 		ft_putstr_fd("Error\n", STDOUT_FILENO);
 		perror(map_name);
+		vars->exit_status = EXIT_FAILURE;
 		destroy_and_exit(vars);
 	}
 	ret = 1;
@@ -74,9 +75,7 @@ void	read_map(t_vars *vars, char *map_name)
 	{
 		ret = get_next_line(fd, &tmp);
 		if (ret == -1)
-		{
-			destroy_and_exit(vars);
-		}
+			vars->exit_status = EXIT_FAILURE, destroy_and_exit(vars);
 		if (tmp[0])
 			vars->map[i++] = tmp;
 		else

@@ -54,6 +54,7 @@ typedef struct s_vars
 	int		collectible;
 	int		collected;
 	int		step_cnt;
+	int		exit_status;
 	bool	err;
 	t_point	p_pos;
 	t_img	img;

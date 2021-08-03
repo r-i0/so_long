@@ -19,6 +19,7 @@ int	cnt_map_width(t_vars *vars)
 		{
 			ft_putstr_fd("Error\n", STDERR_FILENO);
 			ft_putstr_fd("The map is not rectangular.\n", STDERR_FILENO);
+			vars->exit_status = EXIT_FAILURE;
 			destroy_and_exit(vars);
 		}
 		y++;
@@ -91,10 +92,11 @@ void	init_vars(t_vars *vars)
 			vars->map_height * TILE_SIZE + 20, "so_long");
 	set_image(vars);
 	if (check_allocate(vars))
-		destroy_and_exit(vars);
+		vars->exit_status = EXIT_FAILURE, destroy_and_exit(vars);
 	vars->collectible = 0;
 	vars->collected = 0;
 	vars->step_cnt = 0;
+	vars->exit_status = EXIT_SUCCESS;
 	vars->direction = FRONT;
 	vars->action = ACTION1;
 	vars->end = false;

@@ -13,7 +13,7 @@ GNL_SRC	=	$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 
 SRC		=	main_bonus.c read_map_bonus.c put_bonus.c init_vars_bonus.c \
 			destroy_and_exit_bonus.c key_hook_bonus.c check_map_bonus.c \
-			ft_itoa.c ft_strjoin.c put_step_to_window.c \
+			ft_itoa.c ft_strjoin.c put_step_to_window_bonus.c \
 			$(GNL_SRC)
 
 OBJ		=	$(SRC:.c=.o)
