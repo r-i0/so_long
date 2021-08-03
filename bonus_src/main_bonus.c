@@ -42,7 +42,7 @@ static void	draw_tile(t_vars *vars, int x, int y)
 	}
 }
 
-void	check_end_game(t_vars *vars)
+static void	check_end_game(t_vars *vars)
 {
 	int	i;
 
@@ -67,9 +67,7 @@ static int	loop_draw(t_vars *vars)
 	{
 		x = -1;
 		while (++x < vars->map_width)
-		{
 			draw_tile(vars, x, y);
-		}
 	}
 	i++;
 	if (i == 600 && vars->action == ACTION1)

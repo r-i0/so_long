@@ -23,16 +23,8 @@ GNL_SRC	=	$(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 SRC		=	$(SRC_DIR)main.c $(SRC_DIR)read_map.c $(SRC_DIR)put.c $(SRC_DIR)init_vars.c \
 			$(SRC_DIR)destroy_and_exit.c $(SRC_DIR)loop_draw.c $(SRC_DIR)key_hook.c $(SRC_DIR)check_map.c \
 			$(GNL_SRC)
-B_SRC	=	$(B_DIR)main_bonus.c $(B_DIR)read_map_bonus.c $(B_DIR)put_bonus.c $(B_DIR)init_vars_bonus.c \
-			$(B_DIR)destroy_and_exit_bonus.c $(B_DIR)key_hook_bonus.c $(B_DIR)check_map_bonus.c \
-			$(B_DIR)ft_itoa.c $(B_DIR)ft_strjoin.c $(B_DIR)put_step_to_window.c \
-			$(GNL_SRC)
 
 OBJ		=	$(SRC:.c=.o)
-B_OBJ	=	$(B_SRC:.c=.o)
-GNL_OGJ	=	$(GNL_SRC:.c=.o)
-
-INCLUDE	=	./include
 
 .c.o	:
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
@@ -48,32 +40,21 @@ $(NAME)	:	$(MLX_DIR) $(OBJ)
 
 clean	:
 	$(MAKE) -C $(MLX_DIR) clean
-	$(RM) $(OBJ) $(B_OBJ)
+	$(MAKE) -C $(B_DIR) clean
+	$(RM) $(OBJ)
 
 fclean	:
 	$(RM) $(MLX_DIR)
-	$(RM) $(NAME) $(B_NAME) $(OBJ) $(B_OBJ)
+	$(MAKE) -C $(B_DIR) fclean
+	$(RM) $(NAME) $(B_NAME) $(OBJ)
 
 re		:	fclean all
 
-bonus	:	$(B_NAME)
+bonus	:	$(B_DIR)
+	$(MAKE) -C $(B_DIR)
 
-$(B_NAME)	:	$(MLX_DIR) $(B_OBJ)
-	$(MAKE) -C $(MLX_DIR)
-	$(CC) $(CFLAGS) -I $(MLX_DIR) $(B_OBJ) -L $(MLX_DIR) $(FLAGS) -o $@
-	@mv $(B_NAME) $(NAME)
+valgrind	:
+	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(ARG)
+#make valgrind ARG=./maps/sample1.ber
 
-valgrind1	:
-	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/sample1.ber
-valgrind2	:
-	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/maltiple_map.ber
-valgrind3	:
-	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/maltiple_player.ber
-valgrind4	:
-	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/no_exit.ber
-valgrind5	:
-	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/not_close1.ber
-valgrind6	:
-	valgrind --leak-check=full --show-leak-kinds=all --errors-for-leak-kinds=all ./$(NAME) ./maps/not_rectangle.ber
-
-.PHONY	:	all clean fclean re valgrind
+.PHONY	:	all clean fclean re valgrind bonus

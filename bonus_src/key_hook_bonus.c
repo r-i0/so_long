@@ -1,6 +1,6 @@
 #include "../include/so_long_bonus.h"
 
-void	put_end_message(t_vars *vars)
+static void	put_end_message(t_vars *vars)
 {
 	char	*str1;
 	char	*str2;
@@ -23,7 +23,7 @@ void	put_end_message(t_vars *vars)
 	free(str2);
 }
 
-int	check_end(t_vars *vars, int next_x, int next_y)
+static int	check_end(t_vars *vars, int next_x, int next_y)
 {
 	if (vars->collectible == vars->collected)
 	{
@@ -44,7 +44,7 @@ int	check_end(t_vars *vars, int next_x, int next_y)
 	return (0);
 }
 
-int	move_player(t_vars *vars, int next_x, int next_y)
+static int	move_player(t_vars *vars, int next_x, int next_y)
 {
 	if (vars->map[vars->p_pos.y + next_y][vars->p_pos.x + next_x] == '1')
 		return (0);
@@ -64,7 +64,7 @@ int	move_player(t_vars *vars, int next_x, int next_y)
 	return (1);
 }
 
-int	move_player_direction(t_vars *vars, int key_code)
+static int	move_player_direction(t_vars *vars, int key_code)
 {
 	if (key_code == W)
 	{
