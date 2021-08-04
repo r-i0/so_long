@@ -1,6 +1,6 @@
 # so_long
 This project is to create a small 2D game with C.  
-Using [minilinX](https://github.com/42Paris/minilibx-linux) to put image to window.
+Using [minilibX](https://github.com/42Paris/minilibx-linux) to put image to window.
 It only works on Linux 
 
 ## game rule
@@ -29,11 +29,19 @@ This is an example.
 
   
 ### *Mandatory part*
+```
+make
+```
+
 The number of movements and collectibles will be displayed in the shell.
 ![Y3Ii4COu5JUgFg03B7ac1628086711-1628086959](https://user-images.githubusercontent.com/76856052/128198934-6723bbf9-6ead-466c-8091-55db20cb8f06.gif)
 
 
 ### *Bonus part*
+```
+make bonus
+```
+
 Sprite animation is used in the player.  
 Movements count is directly displayed on the screen.  
   
@@ -41,6 +49,5 @@ Movements count is directly displayed on the screen.
 
 # Usage
 ```bash
-$ make
 $ ./so_long ./maps/sample1.ber
 ```
