@@ -1,14 +1,15 @@
 # so_long
 This project is to create a small 2D game with C.  
-I use minilinX to put image to window.
+Using minilinX to put image to window.
 It only works on Linux 
 
-## geme rule
+## game rule
 - The player is a slime.
 - The goal is to escape the stage with fewer steps.
 - Slime have to collect all collectibles on the map before escaping.
 
 ## Description
+### map
 `so_long` takes as a first argument a map description file with the `.ber` extension.  
 The map must be composed of only 5 possible characters:  
 - 0 for an empty space 
@@ -26,4 +27,12 @@ This is an example.
 1111111111111
 ```
 
-The number of movements will be displayed in the shell in Mandatory part.
+  
+### Mandatory part
+The number of movements and collectibles will be displayed in the shell.
+![Y3Ii4COu5JUgFg03B7ac1628086711-1628086959](https://user-images.githubusercontent.com/76856052/128198934-6723bbf9-6ead-466c-8091-55db20cb8f06.gif)
+
+
+### Bonus part
+Sprite animation is used in the player.
+Movements count is directly displayed on the screen.
