@@ -42,8 +42,8 @@ The number of movements and collectibles will be displayed in the shell.
 make bonus
 ```
 
-Sprite animation is used in the player.  
-Movements count is directly displayed on the screen.  
+- Sprite animation is used in the player.  
+- Movements count is directly displayed on the screen.  
   
 ![so_long_bonus_600](https://user-images.githubusercontent.com/76856052/128201807-4f2291e9-7726-470a-b952-3e4d72c2e499.gif)
 
